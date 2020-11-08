@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Layout from '../components/Layout'
-import AdPost from '../components/adpost'
+import AdPost from '../components/adPost'
 import MainBanner from '../components/mainBanner'
 import Headlines from '../components/headlines'
 
