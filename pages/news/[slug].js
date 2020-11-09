@@ -1,9 +1,13 @@
 import React from 'react'
 import Head from 'next/head'
+import Moment from 'moment'
 import Article from '../../components/article'
 import Layout from '../../components/Layout'
 
 const Post = props =>{
+
+  const date = props.post.fields.date;
+  const formattedDate = Moment(date).format('MMMM Do YYYY, H:mm');
 
   return (
     <Layout>
@@ -20,7 +24,7 @@ const Post = props =>{
     </Head>
     <div className="container mt-5">
       <Article
-        date={props.post.fields.date}
+        date={formattedDate}
         image={props.post.fields.image.fields}
         title={props.post.fields.title}
         url={props.post.fields.urlPath}
