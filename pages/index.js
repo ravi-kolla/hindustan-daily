@@ -4,6 +4,8 @@ import Layout from '../components/Layout'
 import AdPost from '../components/adPost'
 import MainBanner from '../components/mainBanner'
 import Headlines from '../components/headlines'
+import GalleryList from '../components/galleryList'
+import ReviewsList from '../components/reviewsList'
 
 const client = require('contentful').createClient({
   space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
@@ -11,69 +13,67 @@ const client = require('contentful').createClient({
 })
 
 function HomePage() {
-  async function fetchTopStories() {
-    const entries = await client.getEntries({ content_type: "post", 'fields.category[match]': "top-stories" })
-    if (entries.items) return entries.items
-    console.log(`Error getting Entries for ${contentType.name}.`)
-  }
-
-  async function fetchBigNews() {
-    const entries = await client.getEntries({ content_type: "post", 'fields.category[match]': "big-news" })
-    if (entries.items) return entries.items
-    console.log(`Error getting Entries for ${contentType.name}.`)
-  }
-
-  async function fetchTrending() {
-    const entries = await client.getEntries({ content_type: "post", 'fields.category[match]': "trending" })
-    if (entries.items) return entries.items
-    console.log(`Error getting Entries for ${contentType.name}.`)
-  }
-
-  async function fetchReviews() {
-    const entries = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews" })
-    if (entries.items) return entries.items
-    console.log(`Error getting Entries for ${contentType.name}.`)
-  }
-
-  async function fetchAds() {
-    const entries = await client.getEntries({ content_type: "addPost" })
-    if (entries.items) return entries.items
-    console.log(`Error getting Entries for ${contentType.name}.`)
-  }
 
   async function fetchMainBanner() {
     const entries = await client.getEntries({ content_type: "mainBanner" })
     if (entries.items) return entries.items
     console.log(`Error getting Entries for ${contentType.name}.`)
   }
+  async function fetchAds() {
+    const entries = await client.getEntries({ content_type: "addPost" })
+    if (entries.items) return entries.items
+    console.log(`Error getting Entries for ${contentType.name}.`)
+  }
+  async function fetchTopStories() {
+    const entries = await client.getEntries({ content_type: "post", 'fields.category[match]': "top-stories" })
+    if (entries.items) return entries.items
+    console.log(`Error getting Entries for ${contentType.name}.`)
+  }
+  async function fetchBigNews() {
+    const entries = await client.getEntries({ content_type: "post", 'fields.category[match]': "big-news" })
+    if (entries.items) return entries.items
+    console.log(`Error getting Entries for ${contentType.name}.`)
+  }
+  async function fetchTrending() {
+    const entries = await client.getEntries({ content_type: "post", 'fields.category[match]': "trending" })
+    if (entries.items) return entries.items
+    console.log(`Error getting Entries for ${contentType.name}.`)
+  }
+  async function fetchReviews() {
+    const entries = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews" })
+    if (entries.items) return entries.items
+    console.log(`Error getting Entries for ${contentType.name}.`)
+  }
+  async function fetchGallery() {
+    const entries = await client.getEntries({ content_type: "gallery" })
+    if (entries.items) return entries.items
+    console.log(`Error getting Entries for ${contentType.name}.`)
+  }
 
+  const [mainBanner, setMainBanner] = useState([])
+  const [ads, setAds] = useState([])
   const [topStories, setTopStories] = useState([])
   const [bigNews, setBigNews] = useState([])
   const [trending, setTrending] = useState([])
-  const [ads, setAds] = useState([])
-  const [mainBanner, setMainBanner] = useState([])
   const [reviews, setReviews] = useState([])
+  const [gallery, setGallery] = useState([])
 
   useEffect(() => {
     async function getPosts() {
       const topStories = await fetchTopStories()
       setTopStories([...topStories])
-      console.log(topStories);
       const bigNews = await fetchBigNews()
       setBigNews([...bigNews])
-      console.log(bigNews);
       const trending = await fetchTrending()
       setTrending([...trending])
-      console.log(trending);
       const allAds = await fetchAds()
       setAds([...allAds])
-      console.log(allAds);
       const mainBanner = await fetchMainBanner()
       setMainBanner([...mainBanner])
-      console.log(mainBanner);
       const reviews = await fetchReviews()
       setReviews([...reviews])
-      console.log(reviews);
+      const gallery = await fetchGallery()
+      setGallery([...gallery])
     }
     getPosts()
   }, [])
@@ -172,7 +172,7 @@ function HomePage() {
                 <h5 className="bg-light">Reviews</h5>
                 {reviews.length > 0
                   ? reviews.map(p => (
-                    <Headlines
+                    <ReviewsList
                       date={p.fields.date}
                       key={p.fields.title}
                       image={p.fields.image.fields}
@@ -183,6 +183,22 @@ function HomePage() {
                   : null}
                   </div>
                 </div>
+                <div className="col-md-6 col-lg-4 mt-3">
+                  <div className="mt-3">
+                  <h5 className="bg-light">Gallery</h5>
+                  {gallery.length > 0
+                    ? gallery.map(p => (
+                        <GalleryList
+                          date={p.fields.date}
+                          key={p.fields.title}
+                          image={p.fields.images[0].fields}
+                          title={p.fields.title}
+                          slug={p.fields.slug}
+                        />
+                      ))
+                    : null}
+                    </div>
+                  </div>
             </div>
         </div>
         </Layout>

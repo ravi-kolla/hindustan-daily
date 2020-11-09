@@ -29,15 +29,25 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
+    "/gallery": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/gallery.js"
+    ],
     "/news": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
       "static/chunks/pages/news.js"
     ],
-    "/news/[slug]": [
+    "/reviews": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/news/[slug].js"
+      "static/chunks/pages/reviews.js"
+    ],
+    "/reviews/[slug]": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/reviews/[slug].js"
     ]
   },
   "ampFirstPages": []

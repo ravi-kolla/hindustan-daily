@@ -11,7 +11,7 @@ const client = require('contentful').createClient({
 
 function Newspage() {
   async function fetchNews() {
-    const entries = await client.getEntries({ content_type: "post" })
+    const entries = await client.getEntries({ content_type: "post", 'fields.category[ne]': "movie-reviews"  })
     if (entries.items) return entries.items
     console.log(`Error getting Entries for ${contentType.name}.`)
   }
