@@ -2,9 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/reviews/[slug]": "pages/reviews/[slug].js",
-  "/": "pages/index.js",
   "/news": "pages/news.js",
-  "/gallery": "pages/gallery.js",
-  "/reviews": "pages/reviews.js"
+  "/news/[slug]": "pages/news/[slug].js"
 }

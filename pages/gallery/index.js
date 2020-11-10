@@ -4,58 +4,25 @@ import Layout from '../../components/Layout'
 import AdPost from '../../components/adPost'
 import GalleryList from '../../components/galleryList'
 
-const client = require('contentful').createClient({
-  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
-  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN
-})
-
-function Gallerypage() {
-  async function fetchGallery() {
-    const entries = await client.getEntries({ content_type: "gallery" })
-    if (entries.items) return entries.items
-    console.log(`Error getting Entries for ${contentType.name}.`)
-  }
-
-  async function fetchAds() {
-    const entries = await client.getEntries({ content_type: "addPost" })
-    if (entries.items) return entries.items
-    console.log(`Error getting Entries for ${contentType.name}.`)
-  }
-
-  const [gallery, setGallery] = useState([])
-  const [ads, setAds] = useState([])
-
-  useEffect(() => {
-    async function getPosts() {
-      const gallery = await fetchGallery()
-      setGallery([...gallery])
-      console.log(gallery);
-      const allAds = await fetchAds()
-      setAds([...allAds])
-      console.log(allAds);
-    }
-    getPosts()
-  }, [])
-
-  return (
+const Gallerypage = props => (
     <>
       <Layout>
       <div className="container">
       <div className="row">
       <div className="col-md-6 col-lg-8 mt-3">
       <div>
-      {ads.length > 0
+      {props.ads.length > 0
         ? <AdPost
-            image = {ads[2].fields.adPost.fields}
-            link = {ads[2].fields.link}
+            image = {props.ads[2].fields.adPost.fields}
+            link = {props.ads[2].fields.link}
           /> : null
       }
       </div>
       <div className="mt-3">
-      {gallery.length > 0
+      {props.gallery.length > 0
         ? <h5 className="bg-light">Gallery</h5> : null }
-      {gallery.length > 0
-        ? gallery.map(p => (
+      {props.gallery.length > 0
+        ? props.gallery.map(p => (
             <GalleryList
               date={p.fields.date}
               key={p.fields.title}
@@ -71,7 +38,23 @@ function Gallerypage() {
         </div>
         </Layout>
     </>
-  )
+)
+
+Gallerypage.getInitialProps = async context => {
+
+  const client = require("contentful").createClient({
+    space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
+    accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN
+  })
+
+  const ads = await client.getEntries({content_type: "addPost"}).then((response) => response.items);
+  const gallery = await client.getEntries({ content_type: "gallery" }).then((response) => response.items);
+
+  if (context.res) {
+    context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+  }
+
+  return { ads, gallery }
 }
 
 export default Gallerypage

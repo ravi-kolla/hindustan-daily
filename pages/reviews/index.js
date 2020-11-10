@@ -4,56 +4,23 @@ import Layout from '../../components/Layout'
 import AdPost from '../../components/adPost'
 import Headlines from '../../components/headlines'
 
-const client = require('contentful').createClient({
-  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
-  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN
-})
-
-function Reviewspage() {
-  async function fetchReviews() {
-    const entries = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews" })
-    if (entries.items) return entries.items
-    console.log(`Error getting Entries for ${contentType.name}.`)
-  }
-
-  async function fetchAds() {
-    const entries = await client.getEntries({ content_type: "addPost" })
-    if (entries.items) return entries.items
-    console.log(`Error getting Entries for ${contentType.name}.`)
-  }
-
-  const [movieReviews, setMovieReviews] = useState([])
-  const [ads, setAds] = useState([])
-
-  useEffect(() => {
-    async function getPosts() {
-      const movieReviews = await fetchReviews()
-      setMovieReviews([...movieReviews])
-      console.log(movieReviews);
-      const allAds = await fetchAds()
-      setAds([...allAds])
-      console.log(allAds);
-    }
-    getPosts()
-  }, [])
-
-  return (
+const Reviewspage = props => (
     <>
       <Layout>
       <div className="container">
       <div className="row">
       <div className="col-md-6 col-lg-8 mt-3">
       <div>
-      {ads.length > 0
+      {props.ads.length > 0
         ? <AdPost
-            image = {ads[1].fields.adPost.fields}
-            link = {ads[1].fields.link}
+            image = {props.ads[1].fields.adPost.fields}
+            link = {props.ads[1].fields.link}
           /> : null
       }
       </div>
       <div className="mt-3">
-      {movieReviews.length > 0
-        ? movieReviews.map(p => (
+      {props.reviews.length > 0
+        ? props.reviews.map(p => (
             <Headlines
               date={p.fields.date}
               key={p.fields.title}
@@ -69,7 +36,23 @@ function Reviewspage() {
         </div>
         </Layout>
     </>
-  )
+)
+
+Reviewspage.getInitialProps = async context => {
+
+  const client = require("contentful").createClient({
+    space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
+    accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN
+  })
+
+  const ads = await client.getEntries({content_type: "addPost"}).then((response) => response.items);
+  const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews" }).then((response) => response.items);
+
+  if (context.res) {
+    context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+  }
+
+  return { ads, reviews }
 }
 
 export default Reviewspage

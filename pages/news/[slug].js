@@ -12,11 +12,10 @@ const Post = props =>{
   return (
     <Layout>
     <Head>
-      <title>{props.post.fields.title}</title>
-      <meta name="title" content={`${props.post.fields.title} | from Hindustan Daily`} />
+      <title>{props.post.fields.title} | News article from Hindustan Daily</title>
       <meta name="keywords" content={`${props.post.fields.title}, by Hindustan Daily`} />
       <meta name="description" content={`Article on ${props.post.fields.title} | by Hindustan Daily`} />
-      <meta property="og:url"           content={`https://hindustandaily.com/news/${props.post.fields.urlPath}`} />
+      <meta property="og:url"           content={`https://hindustandaily.com/news/${props.post.fields.slug}`} />
       <meta property="og:type"          content="website" />
       <meta property="og:title"         content={props.post.fields.title} />
       <meta property="og:description"   content="read on Hindustan Daily" />
@@ -27,7 +26,7 @@ const Post = props =>{
         date={formattedDate}
         image={props.post.fields.image.fields}
         title={props.post.fields.title}
-        url={props.post.fields.urlPath}
+        url={props.post.fields.slug}
         body={props.post.fields.body}
       />
     </div>
