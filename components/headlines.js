@@ -6,6 +6,7 @@ import { getNewsHref, getNewsLink } from '../helpers/urlHelper';
 
 function Headlines({ date, image, title, slug }) {
   return (
+    <>
     <Link href={getNewsHref(slug)} as={getNewsLink(slug)}>
       <a className="headline-link">
       <div className="d-flex mb-2">
@@ -18,6 +19,8 @@ function Headlines({ date, image, title, slug }) {
       </div>
     </a>
     </Link>
+    <hr />
+    </>
   )
 }
 

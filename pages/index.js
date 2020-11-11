@@ -6,6 +6,8 @@ import MainBanner from '../components/mainBanner'
 import Headlines from '../components/headlines'
 import GalleryList from '../components/galleryList'
 import ReviewsList from '../components/reviewsList'
+import EtNews from '../components/etNews'
+import HealthNews from '../components/healthNews'
 
 const HomePage = props => (
     <>
@@ -28,7 +30,7 @@ const HomePage = props => (
       }
       </div>
       <div className="mt-3">
-      <h5 className="bg-light">Top Stories</h5>
+      <h5 className="bg-light font-weight-bold">Top Stories</h5>
       {props.topStories.length > 0
         ? props.topStories.map(p => (
             <Headlines date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
@@ -42,7 +44,7 @@ const HomePage = props => (
           }
           </div>
           <div className="mt-3">
-          <h5 className="bg-light">Big News</h5>
+          <h5 className="bg-light font-weight-bold">Big News</h5>
           {props.bigNews.length > 0
             ? props.bigNews.map(p => (
               <Headlines date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
@@ -56,7 +58,7 @@ const HomePage = props => (
               }
               </div>
               <div className="mt-3">
-              <h5 className="bg-light">Trending</h5>
+              <h5 className="bg-light font-weight-bold">Trending</h5>
               {props.trending.length > 0
                 ? props.trending.map(p => (
                   <Headlines date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
@@ -66,7 +68,7 @@ const HomePage = props => (
               </div>
               <div className="col-md-6 col-lg-4 mt-3">
                 <div className="mt-3">
-                <h5 className="bg-light">Reviews</h5>
+                <h5 className="bg-light font-weight-bold">Reviews</h5>
                 {props.reviews.length > 0
                   ? props.reviews.map(p => (
                     <ReviewsList date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
@@ -76,7 +78,7 @@ const HomePage = props => (
                 </div>
                 <div className="col-md-6 col-lg-4 mt-3">
                   <div className="mt-3">
-                  <h5 className="bg-light">Gallery</h5>
+                  <h5 className="bg-light font-weight-bold">Gallery</h5>
                   {props.gallery.length > 0
                     ? props.gallery.map(p => (
                         <GalleryList date={p.fields.date} key={p.fields.title} image={p.fields.images[0].fields} title={p.fields.title} slug={p.fields.slug}
@@ -84,6 +86,31 @@ const HomePage = props => (
                       )) : null}
                     </div>
                   </div>
+                  <div className="col-md-6 col-lg-4 mt-3">
+                    <div className="mt-3">
+                    <h5 className="bg-light font-weight-bold">Entertainment</h5>
+                    {props.etNews.length > 0
+                      ? props.etNews.map(p => (
+                          <EtNews date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug}
+                          />
+                        )) : null}
+                      </div>
+                    </div>
+                    <div className="col-md-6 col-lg-4 mt-3">
+                      <div>
+                      {props.ads.length > 2
+                        ? <AdPost image = {props.ads[2].fields.adPost.fields} link = {props.ads[2].fields.link} /> : null
+                      }
+                      </div>
+                      <div className="mt-3">
+                      <h5 className="bg-light font-weight-bold">Health</h5>
+                      {props.health.length > 0
+                        ? props.health.map(p => (
+                          <HealthNews date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
+                          ))
+                        : <p>Coming Soon</p>}
+                        </div>
+                      </div>
             </div>
         </div>
         </Layout>
@@ -105,12 +132,14 @@ HomePage.getInitialProps = async context => {
   const trending = await client.getEntries({ content_type: "post", 'fields.category[match]': "trending" }).then((response) => response.items);
   const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews" }).then((response) => response.items);
   const gallery = await client.getEntries({ content_type: "gallery" }).then((response) => response.items);
+  const etNews = await client.getEntries({ content_type: "entertainment" }).then((response) => response.items);
+  const health = await client.getEntries({ content_type: "health" }).then((response) => response.items);
 
   if (context.res) {
     context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   }
 
-  return { mainBanner, ads, topStories, bigNews, trending, reviews, gallery }
+  return { mainBanner, ads, topStories, bigNews, trending, reviews, gallery, etNews, health }
 }
 
 export default HomePage

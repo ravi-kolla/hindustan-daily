@@ -5,6 +5,7 @@ import { getReviewsHref, getReviewsLink } from '../helpers/urlHelper';
 
 function ReviewsList({ date, image, title, slug }) {
   return (
+    <>
     <Link href={getReviewsHref(slug)} as={getReviewsLink(slug)}>
       <a className="headline-link">
       <div className="d-flex mb-2">
@@ -17,6 +18,8 @@ function ReviewsList({ date, image, title, slug }) {
       </div>
     </a>
     </Link>
+    <hr />
+    </>
   )
 }
 
