@@ -16,7 +16,7 @@ const ReviewPost = props =>{
       <meta name="title" content={`${props.post.fields.title} | from Hindustan Daily`} />
       <meta name="keywords" content={`${props.post.fields.title}, by Hindustan Daily`} />
       <meta name="description" content={`Review on ${props.post.fields.title} | by Hindustan Daily`} />
-      <meta property="og:url"           content={`https://hindustandaily.com/news/${props.post.fields.slug}`} />
+      <meta property="og:url"           content={`https://hindustandaily.com/entertainment/${props.post.fields.slug}`} />
       <meta property="og:type"          content="website" />
       <meta property="og:title"         content={props.post.fields.title} />
       <meta property="og:description"   content="read on Hindustan Daily" />
