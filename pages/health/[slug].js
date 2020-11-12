@@ -28,7 +28,7 @@ const HealthPost = props =>{
       <meta name="twitter:creator" content="@itsHDGroup" />
       <meta name="twitter:title" content={props.post.fields.title} />
       <meta name="twitter:description" content={props.post.fields.body} />
-      <meta name="twitter:image" content={props.post.fields.image.fields.file.url} />
+      <meta name="twitter:image" content={`https:${props.post.fields.image.fields.file.url}`} />
     </Head>
     <div className="container mt-5">
       <Article
