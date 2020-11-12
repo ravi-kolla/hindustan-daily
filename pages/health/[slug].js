@@ -13,7 +13,8 @@ const HealthPost = props =>{
     <Layout>
     <Head>
       <title>{props.post.fields.title} | from Hindustan Daily</title>
-      <meta name="title" content={`${props.post.fields.title} | from Hindustan Daily`} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="title" content={props.post.fields.title} />
       <meta name="keywords" content={`${props.post.fields.title}, by Hindustan Daily`} />
       <meta name="description" content={`${props.post.fields.title} | by Hindustan Daily`} />
       <meta property="og:url"           content={`https://hindustandaily.com/health/${props.post.fields.slug}`} />
@@ -21,7 +22,6 @@ const HealthPost = props =>{
       <meta property="og:title"         content={props.post.fields.title} />
       <meta property="og:description"   content="read on Hindustan Daily" />
       <meta property="og:image"         content={props.post.fields.image.fields.file.url} />
-      <meta name="twitter:card" content="summary_large_image" />
       <meta property="og:site_name" content="Hindustan Daily, Online news portal" />
       <meta property="fb:app_id" content="itshdmedia" />
       <meta name="twitter:site" content="@itsHDGroup" />
