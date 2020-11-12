@@ -13,13 +13,21 @@ const Post = props =>{
     <Layout>
     <Head>
       <title>{props.post.fields.title} | News article from Hindustan Daily</title>
-      <meta name="keywords" content={`${props.post.fields.title}, by Hindustan Daily`} />
-      <meta name="description" content={`Article on ${props.post.fields.title} | by Hindustan Daily`} />
+      <meta name="keywords" content={props.post.fields.title} />
+      <meta name="description" content={props.post.fields.body} />
       <meta property="og:url"           content={`https://hindustandaily.com/news/${props.post.fields.slug}`} />
       <meta property="og:type"          content="website" />
       <meta property="og:title"         content={props.post.fields.title} />
-      <meta property="og:description"   content="read on Hindustan Daily" />
+      <meta property="og:description"   content={props.post.fields.body} />
       <meta property="og:image"         content={props.post.fields.image.fields.file.url} />
+      <meta property="og:site_name" content="Hindustan Daily, Online news portal" />
+      <meta property="fb:app_id" content="itshdmedia" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@itsHDGroup" />
+      <meta name="twitter:creator" content="@itsHDGroup" />
+      <meta name="twitter:title" content={props.post.fields.title} />
+      <meta name="twitter:description" content={props.post.fields.body} />
+      <meta name="twitter:image" content={`https:${props.post.fields.image.fields.file.url}`} />
     </Head>
     <div className="container mt-5">
       <Article
