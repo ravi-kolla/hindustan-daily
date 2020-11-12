@@ -21,6 +21,10 @@ const HealthPost = props =>{
       <meta property="og:title"         content={props.post.fields.title} />
       <meta property="og:description"   content="read on Hindustan Daily" />
       <meta property="og:image"         content={props.post.fields.image.fields.file.url} />
+      <meta name="twitter:card" content="summary_large_image">
+      <meta property="og:site_name" content="Hindustan Daily, Online news portal">
+      <meta property="fb:app_id" content="itshdmedia" />
+      <meta name="twitter:site" content="@itsHDGroup">
     </Head>
     <div className="container mt-5">
       <Article
