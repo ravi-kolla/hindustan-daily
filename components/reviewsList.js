@@ -18,7 +18,6 @@ function ReviewsList({ date, image, title, slug }) {
       </div>
     </a>
     </Link>
-    <hr />
     </>
   )
 }

@@ -19,7 +19,6 @@ function Headlines({ date, image, title, slug }) {
       </div>
     </a>
     </Link>
-    <hr />
     </>
   )
 }

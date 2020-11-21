@@ -19,7 +19,6 @@ function EtNews({ date, image, title, slug }) {
       </div>
     </a>
     </Link>
-    <hr />
     </>
   )
 }

@@ -68,6 +68,16 @@ const HomePage = props => (
               </div>
               <div className="col-md-6 col-lg-4 mt-3">
                 <div className="mt-3">
+                <h5 className="bg-light font-weight-bold">Health</h5>
+                {props.health.length > 0
+                  ? props.health.map(p => (
+                    <HealthNews date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
+                    ))
+                  : <p>Coming Soon</p>}
+                  </div>
+                </div>
+              <div className="col-md-6 col-lg-4 mt-3">
+                <div className="mt-3">
                 <h5 className="bg-light font-weight-bold">Reviews</h5>
                 {props.reviews.length > 0
                   ? props.reviews.map(p => (
@@ -76,16 +86,6 @@ const HomePage = props => (
                   : null}
                   </div>
                 </div>
-                <div className="col-md-6 col-lg-4 mt-3">
-                  <div className="mt-3">
-                  <h5 className="bg-light font-weight-bold">Gallery</h5>
-                  {props.gallery.length > 0
-                    ? props.gallery.map(p => (
-                        <GalleryList date={p.fields.date} key={p.fields.title} image={p.fields.images[0].fields} title={p.fields.title} slug={p.fields.slug}
-                        />
-                      )) : null}
-                    </div>
-                  </div>
                   <div className="col-md-6 col-lg-4 mt-3">
                     <div className="mt-3">
                     <h5 className="bg-light font-weight-bold">Entertainment</h5>
@@ -96,21 +96,35 @@ const HomePage = props => (
                         )) : null}
                       </div>
                     </div>
-                    <div className="col-md-6 col-lg-4 mt-3">
+                      <div className="col-md-6 col-lg-4 mt-3">
+                        <div>
+                        {props.ads.length > 2
+                          ? <AdPost image = {props.ads[1].fields.adPost.fields} link = {props.ads[1].fields.link} /> : null
+                        }
+                        </div>
+                        <div className="mt-3">
+                        <h5 className="bg-light font-weight-bold">Auto News</h5>
+                        {props.autoNews.length > 0
+                          ? props.autoNews.map(p => (
+                            <Headlines date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
+                            )) : null}
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-lg-4 mt-3">
                       <div>
                       {props.ads.length > 2
                         ? <AdPost image = {props.ads[2].fields.adPost.fields} link = {props.ads[2].fields.link} /> : null
                       }
                       </div>
-                      <div className="mt-3">
-                      <h5 className="bg-light font-weight-bold">Health</h5>
-                      {props.health.length > 0
-                        ? props.health.map(p => (
-                          <HealthNews date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
-                          ))
-                        : <p>Coming Soon</p>}
+                        <div className="mt-3">
+                        <h5 className="bg-light font-weight-bold">Gallery</h5>
+                        {props.gallery.length > 0
+                          ? props.gallery.map(p => (
+                              <GalleryList date={p.fields.date} key={p.fields.title} image={p.fields.images[0].fields} title={p.fields.title} slug={p.fields.slug}
+                              />
+                            )) : null}
+                          </div>
                         </div>
-                      </div>
             </div>
         </div>
         </Layout>
@@ -127,19 +141,20 @@ HomePage.getInitialProps = async context => {
 
   const mainBanner = await client.getEntries({content_type: "mainBanner"}).then((response) => response.items);
   const ads = await client.getEntries({content_type: "addPost"}).then((response) => response.items);
-  const topStories = await client.getEntries({ content_type: "post", 'fields.category[match]': "top-stories" }).then((response) => response.items);
-  const bigNews = await client.getEntries({ content_type: "post", 'fields.category[match]': "big-news" }).then((response) => response.items);
-  const trending = await client.getEntries({ content_type: "post", 'fields.category[match]': "trending" }).then((response) => response.items);
-  const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews" }).then((response) => response.items);
-  const gallery = await client.getEntries({ content_type: "gallery" }).then((response) => response.items);
-  const etNews = await client.getEntries({ content_type: "entertainment" }).then((response) => response.items);
-  const health = await client.getEntries({ content_type: "health" }).then((response) => response.items);
+  const topStories = await client.getEntries({ content_type: "post", 'fields.category[match]': "top-stories", 'order': "-fields.date", 'limit': "4" }).then((response) => response.items);
+  const bigNews = await client.getEntries({ content_type: "post", 'fields.category[match]': "big-news", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
+  const trending = await client.getEntries({ content_type: "post", 'fields.category[match]': "trending", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
+  const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
+  const autoNews = await client.getEntries({ content_type: "post", 'fields.category[match]': "auto-news", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
+  const gallery = await client.getEntries({ content_type: "gallery", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
+  const etNews = await client.getEntries({ content_type: "entertainment", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
+  const health = await client.getEntries({ content_type: "health", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
 
   if (context.res) {
     context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   }
 
-  return { mainBanner, ads, topStories, bigNews, trending, reviews, gallery, etNews, health }
+  return { mainBanner, ads, topStories, bigNews, trending, reviews, gallery, etNews, health, autoNews }
 }
 
 export default HomePage
