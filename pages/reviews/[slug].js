@@ -3,6 +3,8 @@ import Head from 'next/head'
 import Moment from 'moment'
 import Article from '../../components/article'
 import Layout from '../../components/Layout'
+import AdPost from '../../components/adPost'
+import SuggestedArticles from '../../components/suggestedArticles'
 
 const ReviewPost = props =>{
 
@@ -30,14 +32,43 @@ const ReviewPost = props =>{
       <meta name="twitter:description" content={props.post.fields.body} />
       <meta name="twitter:image" content={`https:${props.post.fields.image.fields.file.url}`} />
     </Head>
-    <div className="container mt-5">
-      <Article
-        date={formattedDate}
-        image={props.post.fields.image.fields}
-        title={props.post.fields.title}
-        url={props.post.fields.urlPath}
-        body={props.post.fields.body}
-      />
+    <div className="container">
+    <div className="mt-4 row col-md-12">
+      <div className="col-lg-9">
+        <Article
+          date={formattedDate}
+          image={props.post.fields.image.fields}
+          title={props.post.fields.title}
+          url={props.post.fields.slug}
+          body={props.post.fields.body}
+          category="reviews"
+        />
+      </div>
+      <div className="col-lg-3">
+      <div className="mb-5">
+      {props.ads.length > 0
+        ? <AdPost
+            image = {props.ads[1].fields.adPost.fields}
+            link = {props.ads[1].fields.link}
+          /> : null
+      }
+      </div>
+        <h5 className="bg-light">Suggested for you</h5>
+        <div className="row">
+        {props.suggestions.length > 0
+          ? props.suggestions.map(p => (
+              <SuggestedArticles
+                date={p.fields.date}
+                key={p.fields.title}
+                image={p.fields.image.fields}
+                title={p.fields.title}
+                slug={p.fields.slug}
+              />
+            ))
+          : null}
+          </div>
+      </div>
+    </div>
     </div>
     </Layout>
   )
@@ -51,12 +82,9 @@ export async function getStaticProps(context) {
   })
 
   // Fetch all results where `fields.slug` is equal to the `slug` param
-  const result = await client
-    .getEntries({
-      content_type: "post",
-      "fields.slug": context.params.slug,
-    })
-    .then((response) => response.items)
+  const ads = await client.getEntries({content_type: "addPost"}).then((response) => response.items);
+  const result = await client.getEntries({content_type: "post","fields.slug": context.params.slug}).then((response) => response.items)
+  const suggestions = await client.getEntries({content_type: "post", 'fields.category[match]': "movie-reviews", 'fields.slug[ne]': context.params.slug, 'order': "-fields.date", 'limit': "4" }).then((response) => response.items);
 
   // Since `slug` was set to be a unique field, we can be confident that
   // the only result in the query is the correct post.
@@ -71,7 +99,7 @@ export async function getStaticProps(context) {
   // Return the post as props
   return {
     props: {
-      post,
+      ads,post,suggestions
     },
   }
 }

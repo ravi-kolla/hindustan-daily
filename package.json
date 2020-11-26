@@ -21,6 +21,7 @@
     "bootstrap": "^4.5.3",
     "contentful": "^7.14.8",
     "moment": "^2.29.1",
+    "mongoose": "^5.10.16",
     "next": "^10.0.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",

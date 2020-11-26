@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Layout from '../../components/Layout'
 import AdPost from '../../components/adPost'
-import HealthNews from '../../components/healthNews'
+import Headlines from '../../components/headlines'
 
 const HealthPage = props => (
     <>
@@ -11,25 +11,31 @@ const HealthPage = props => (
       <div className="row">
       <div className="col-md-6 col-lg-8 mt-3">
       <div>
-      {props.ads.length > 0
-        ? <AdPost
-            image = {props.ads[1].fields.adPost.fields}
-            link = {props.ads[1].fields.link}
-          /> : null
-      }
-      </div>
-      <div className="mt-3">
+      <h5 className="bg-light">Health</h5>
       {props.health.length > 0
         ? props.health.map(p => (
-            <HealthNews
+            <Headlines
               date={p.fields.date}
               key={p.fields.title}
               image={p.fields.image.fields}
               title={p.fields.title}
               slug={p.fields.slug}
+              category="health"
             />
           ))
         : null}
+        </div>
+        </div>
+        <div className="col-md-4 mt-5">
+        <div>
+        {props.ads.length > 0
+          ?props.ads.map(p => (
+            <AdPost
+                image = {p.fields.adPost.fields}
+                link = {p.fields.link}
+              />
+          ))  : null
+        }
         </div>
         </div>
         </div>

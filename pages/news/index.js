@@ -14,16 +14,8 @@ const Newspage = props => (
       <Layout>
       <div className="container">
       <div className="row">
-      <div className="col-md-6 col-lg-8 mt-3">
+      <div className="col-md-8 mt-3">
       <div>
-      {props.ads.length > 0
-        ? <AdPost
-            image = {props.ads[0].fields.adPost.fields}
-            link = {props.ads[0].fields.link}
-          /> : null
-      }
-      </div>
-      <div className="mt-3">
       <h5 className="bg-light">News</h5>
       {props.news.length > 0
         ? props.news.map(p => (
@@ -33,9 +25,22 @@ const Newspage = props => (
               image={p.fields.image.fields}
               title={p.fields.title}
               slug={p.fields.slug}
+              category="news"
             />
           ))
         : null}
+        </div>
+        </div>
+        <div className="col-md-4 mt-5">
+        <div>
+        {props.ads.length > 0
+          ?props.ads.map(p => (
+            <AdPost
+                image = {p.fields.adPost.fields}
+                link = {p.fields.link}
+              />
+          ))  : null
+        }
         </div>
         </div>
         </div>

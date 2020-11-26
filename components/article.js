@@ -1,19 +1,31 @@
 import React from "react"
 import Markdown from "react-markdown"
+import SocialShare from "./socialShare"
+import PostComment from './postComment'
 
-function Article({ date, image, title, url, body }) {
+function Article({ date, image, title, url, body, category }) {
   return (
     <div>
-      <div className="col-md-8 mx-auto blog-post">
+      <div className="mx-auto blog-post">
+      <div className="mb-1">
+        <h1 className="mb-0">{title}</h1>
+        <small>{date}</small>
+      </div>
       <div>
-        <h1>{title}</h1>
+      <SocialShare dataText={title}
+              dataUid={url}
+              imageAlt={image.title}
+              category={category}
+      />
       </div>
-      <small>{date}</small>
       <div className="mt-2 mb-3">
-        <img className="img-fluid" src={image.file.url} alt={image.title} />
+        <img className="article-img img-fluid" src={image.file.url} alt={image.title} />
       </div>
+      <div>
       <Markdown source={body} escapeHtml={true} />
       </div>
+      </div>
+      <PostComment uid={url} />
     </div>
   )
 }

@@ -5,7 +5,7 @@ function adPost({link,image}) {
   return(
     <Link href={link} as={link}>
       <a target="_blank">
-      <img className="border sm-ad-banner img-fluid" src={image.file.url} alt={image.title} />
+      <img className="border sm-ad-banner img-fluid mb-2" src={image.file.url} alt={image.title} />
     </a>
     </Link>
   )

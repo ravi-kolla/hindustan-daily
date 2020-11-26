@@ -11,14 +11,7 @@ const Reviewspage = props => (
       <div className="row">
       <div className="col-md-6 col-lg-8 mt-3">
       <div>
-      {props.ads.length > 0
-        ? <AdPost
-            image = {props.ads[1].fields.adPost.fields}
-            link = {props.ads[1].fields.link}
-          /> : null
-      }
-      </div>
-      <div className="mt-3">
+      <h5 className="bg-light">Reviews</h5>
       {props.reviews.length > 0
         ? props.reviews.map(p => (
             <Headlines
@@ -27,9 +20,22 @@ const Reviewspage = props => (
               image={p.fields.image.fields}
               title={p.fields.title}
               slug={p.fields.slug}
+              category="reviews"
             />
           ))
         : null}
+        </div>
+        </div>
+        <div className="col-md-4 mt-5">
+        <div>
+        {props.ads.length > 0
+          ?props.ads.map(p => (
+            <AdPost
+                image = {p.fields.adPost.fields}
+                link = {p.fields.link}
+              />
+          ))  : null
+        }
         </div>
         </div>
         </div>

@@ -14,7 +14,6 @@ const Header = () => (
         <Nav.Link className="theme-color" href="/gallery">Gallery</Nav.Link>
         <Nav.Link className="theme-color" href="/entertainment">Entertainment</Nav.Link>
         <Nav.Link className="theme-color" href="/health">Health</Nav.Link>
-        <Nav.Link className="theme-color" href="/login">Login</Nav.Link>
       </Nav>
     </Navbar.Collapse>
     </Container>

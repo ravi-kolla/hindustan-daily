@@ -60,7 +60,9 @@ const GalleyPost = props =>{
         date={formattedDate}
         images={props.post.fields.images}
         title={props.post.fields.title}
+        url={props.post.fields.slug}
         description={props.post.fields.description}
+        category="gallery"
       />
       </div>
       <div className="col-md-4">

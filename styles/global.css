@@ -46,8 +46,33 @@ a:hover {
   height: 300px;
   width: 100%;
 }
+.blog-post h1 {
+    font-size: 24px;
+}
 @media screen and (max-width: 991px) {
   .blog-post h1 {
     font-size: 1.25rem;
   }
+}
+.article-img {
+  max-height: 413px;
+  width:100%;
+  max-width: 743px;
+}
+.blog-image {
+  max-height: 167px;
+}
+.blog-card:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 6px 12px;
+    text-decoration: none;
+}
+.blog-card a {
+  color: #000;
+  text-decoration: none;
+}
+.blog-card a:hover {
+  color: #166701;
+}
+.blog-post h2 {
+  font-size:1rem;
 }

@@ -5,16 +5,13 @@ import AdPost from '../components/adPost'
 import MainBanner from '../components/mainBanner'
 import Headlines from '../components/headlines'
 import GalleryList from '../components/galleryList'
-import ReviewsList from '../components/reviewsList'
-import EtNews from '../components/etNews'
-import HealthNews from '../components/healthNews'
 
 const HomePage = props => (
     <>
       <Layout>
       <div className="container">
       <div className="row">
-      <div className="mt-1">
+      <div className="mt-1 col-md-12">
       <div>
       {props.mainBanner.length > 0
         ? <MainBanner image = {props.mainBanner[0].fields.banner.fields} link = {props.mainBanner[0].fields.link} /> : null
@@ -33,7 +30,7 @@ const HomePage = props => (
       <h5 className="bg-light font-weight-bold">Top Stories</h5>
       {props.topStories.length > 0
         ? props.topStories.map(p => (
-            <Headlines date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
+            <Headlines category="news" date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
           )) : null}
         </div>
         </div>
@@ -47,7 +44,7 @@ const HomePage = props => (
           <h5 className="bg-light font-weight-bold">Big News</h5>
           {props.bigNews.length > 0
             ? props.bigNews.map(p => (
-              <Headlines date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
+              <Headlines category="news" date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
               )) : null}
             </div>
           </div>
@@ -58,30 +55,20 @@ const HomePage = props => (
               }
               </div>
               <div className="mt-3">
-              <h5 className="bg-light font-weight-bold">Trending</h5>
-              {props.trending.length > 0
-                ? props.trending.map(p => (
-                  <Headlines date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
+              <h5 className="bg-light font-weight-bold">Health</h5>
+              {props.health.length > 0
+                ? props.health.map(p => (
+                  <Headlines category="health" date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
                   ))
-                : null}
+                : <p>Coming Soon</p>}
                 </div>
               </div>
-              <div className="col-md-6 col-lg-4 mt-3">
-                <div className="mt-3">
-                <h5 className="bg-light font-weight-bold">Health</h5>
-                {props.health.length > 0
-                  ? props.health.map(p => (
-                    <HealthNews date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
-                    ))
-                  : <p>Coming Soon</p>}
-                  </div>
-                </div>
               <div className="col-md-6 col-lg-4 mt-3">
                 <div className="mt-3">
                 <h5 className="bg-light font-weight-bold">Reviews</h5>
                 {props.reviews.length > 0
                   ? props.reviews.map(p => (
-                    <ReviewsList date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
+                    <Headlines category="reviews" date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
                     ))
                   : null}
                   </div>
@@ -91,22 +78,17 @@ const HomePage = props => (
                     <h5 className="bg-light font-weight-bold">Entertainment</h5>
                     {props.etNews.length > 0
                       ? props.etNews.map(p => (
-                          <EtNews date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug}
+                          <Headlines category="entertainment" date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug}
                           />
                         )) : null}
                       </div>
                     </div>
                       <div className="col-md-6 col-lg-4 mt-3">
-                        <div>
-                        {props.ads.length > 2
-                          ? <AdPost image = {props.ads[1].fields.adPost.fields} link = {props.ads[1].fields.link} /> : null
-                        }
-                        </div>
                         <div className="mt-3">
                         <h5 className="bg-light font-weight-bold">Auto News</h5>
                         {props.autoNews.length > 0
                           ? props.autoNews.map(p => (
-                            <Headlines date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
+                            <Headlines category="news" date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
                             )) : null}
                         </div>
                       </div>
@@ -143,7 +125,6 @@ HomePage.getInitialProps = async context => {
   const ads = await client.getEntries({content_type: "addPost"}).then((response) => response.items);
   const topStories = await client.getEntries({ content_type: "post", 'fields.category[match]': "top-stories", 'order': "-fields.date", 'limit': "4" }).then((response) => response.items);
   const bigNews = await client.getEntries({ content_type: "post", 'fields.category[match]': "big-news", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
-  const trending = await client.getEntries({ content_type: "post", 'fields.category[match]': "trending", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
   const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
   const autoNews = await client.getEntries({ content_type: "post", 'fields.category[match]': "auto-news", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
   const gallery = await client.getEntries({ content_type: "gallery", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
@@ -154,7 +135,7 @@ HomePage.getInitialProps = async context => {
     context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   }
 
-  return { mainBanner, ads, topStories, bigNews, trending, reviews, gallery, etNews, health, autoNews }
+  return { mainBanner, ads, topStories, bigNews, reviews, gallery, etNews, health, autoNews }
 }
 
 export default HomePage
