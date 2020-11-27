@@ -1,24 +1,28 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import DisplayComments from './displayComments'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Button } from 'react-bootstrap'
+import useAuth from "../hooks/useAuth";
+import LoginModal from './loginModal'
 
 function PostComment (props) {
 
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const uid = props.uid;
   const [reloadComments, setReloadComments] = useState();
+  const [modalShow, setModalShow] = React.useState(false);
+  const { user, loading } = useAuth();
 
 async function postComment(e) {
     e.preventDefault();
     const body = {
             name: name,
-            email: email,
+            email: user.email,
             message: message,
             uid: uid
     };
+    console.log(body);
     const res = await fetch('/api/post-comment', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -29,11 +33,10 @@ async function postComment(e) {
       setReloadComments(!reloadComments);
       console.log(userObj);
     } else {
-      console.log('Incorrect username or password. Try again!')
-      setErrorMessage('Incorrect username or password. Try again!');
+      console.log('Error fetching comments')
+      setErrorMessage('Error fetching comments');
     }
     setName("");
-    setEmail("");
     setMessage("");
   }
 
@@ -45,7 +48,7 @@ async function postComment(e) {
     <DisplayComments uid={props.uid} reloadComments={reloadComments} />
     <hr/>
     <h6>Share your thoughts!</h6>
-    <form  onSubmit={postComment}>
+    <form>
     <div className="form-group mb-2">
       <textarea type="text" className="form-control"
             id="message" aria-describedby="message"
@@ -63,17 +66,18 @@ async function postComment(e) {
                   onChange={(e) => setName(e.target.value)}
             />
         </div>
-        <div class="col">
-            <input type="email" className="form-control"
-                  id="InputEmail" aria-describedby="emailHelp"
-                  placeholder="Email" aria-label="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-            />
-        </div>
       </div>
-      <div className="comment-button-container d-flex justify-content-end">
-        <button type="submit" className={`btn btn-primary mb-2 state=="LOADING" ? "btn-secondary" : ""`}  onClick={postComment}>Post Comment</button>
+      <div className="comment-button-container d-flex justify-content-end mb-2">
+        {user == null ?
+          <>
+            <Button variant="primary" onClick={() => setModalShow(true)}>Login to comment</Button>
+            <LoginModal
+              show={modalShow}
+              onHide={() => setModalShow(false)}
+            />
+          </>
+        : <button type="submit" className={`btn btn-primary state=="LOADING" ? "btn-secondary" : ""`}  onClick={postComment}>Post Comment</button>
+        }
       </div>
     </form>
     </div>
