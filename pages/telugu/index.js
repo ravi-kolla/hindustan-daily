@@ -72,7 +72,7 @@ TeluguPage.getInitialProps = async context => {
   const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews", 'fields.language[match]': "telugu", 'order': "-fields.date", 'limit': "5"  }).then((response) => response.items);
   const health = await client.getEntries({ content_type: "health", 'fields.language[match]': "telugu", 'order': "-fields.date", 'limit': "5"  }).then((response) => response.items);
   const etNews = await client.getEntries({ content_type: "entertainment", 'fields.language[match]': "telugu", 'order': "-fields.date", 'limit': "5"  }).then((response) => response.items);
-  const gallery = await client.getEntries({ content_type: "gallery", 'order': "-fields.date", 'fields.language[match]': "telugu", 'limit': "5"  }).then((response) => response.items);
+  const gallery = await client.getEntries({ content_type: "gallery", 'order': "-fields.date", 'limit': "5"  }).then((response) => response.items);
 
   if (context.res) {
     context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
