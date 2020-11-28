@@ -1,10 +1,10 @@
 import React from 'react'
 import Head from 'next/head'
 import Moment from 'moment'
-import Article from '../../components/article'
-import Layout from '../../components/Layout'
-import AdPost from '../../components/adPost'
-import SuggestedArticles from '../../components/suggestedArticles'
+import Article from '../../../components/article'
+import Layout from '../../../components/Layout'
+import AdPost from '../../../components/adPost'
+import SuggestedArticles from '../../../components/suggestedArticles'
 
 const HealthPost = props =>{
 
