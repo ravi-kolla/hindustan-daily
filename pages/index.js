@@ -102,7 +102,7 @@ const HomePage = props => (
                         <h5 className="bg-light font-weight-bold">Gallery</h5>
                         {props.gallery.length > 0
                           ? props.gallery.map(p => (
-                              <GalleryList date={p.fields.date} key={p.fields.title} image={p.fields.images[0].fields} title={p.fields.title} slug={p.fields.slug}
+                              <GalleryList category="gallery" date={p.fields.date} key={p.fields.title} image={p.fields.images[0].fields} title={p.fields.title} slug={p.fields.slug}
                               />
                             )) : null}
                           </div>
@@ -123,13 +123,13 @@ HomePage.getInitialProps = async context => {
 
   const mainBanner = await client.getEntries({content_type: "mainBanner"}).then((response) => response.items);
   const ads = await client.getEntries({content_type: "addPost"}).then((response) => response.items);
-  const topStories = await client.getEntries({ content_type: "post", 'fields.category[match]': "top-stories", 'order': "-fields.date", 'limit': "4" }).then((response) => response.items);
-  const bigNews = await client.getEntries({ content_type: "post", 'fields.category[match]': "big-news", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
-  const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
-  const autoNews = await client.getEntries({ content_type: "post", 'fields.category[match]': "auto-news", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
+  const topStories = await client.getEntries({ content_type: "post", 'fields.category[match]': "top-stories", 'fields.language[ne]': "telugu", 'order': "-fields.date", 'limit': "4" }).then((response) => response.items);
+  const bigNews = await client.getEntries({ content_type: "post", 'fields.category[match]': "big-news", 'fields.language[ne]': "telugu", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
+  const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews", 'fields.language[ne]': "telugu", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
+  const autoNews = await client.getEntries({ content_type: "post", 'fields.category[match]': "auto-news", 'fields.language[ne]': "telugu", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
   const gallery = await client.getEntries({ content_type: "gallery", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
-  const etNews = await client.getEntries({ content_type: "entertainment", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
-  const health = await client.getEntries({ content_type: "health", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
+  const etNews = await client.getEntries({ content_type: "entertainment", 'order': "-fields.date", 'fields.language[ne]': "telugu", 'limit': "4"  }).then((response) => response.items);
+  const health = await client.getEntries({ content_type: "health", 'order': "-fields.date", 'fields.language[ne]': "telugu", 'limit': "4"  }).then((response) => response.items);
 
   if (context.res) {
     context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')

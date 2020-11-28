@@ -29,6 +29,7 @@ const Gallerypage = props => (
               image={p.fields.images[0].fields}
               title={p.fields.title}
               slug={p.fields.slug}
+              category="gallery"
             />
           ))
         : null}
@@ -48,7 +49,7 @@ Gallerypage.getInitialProps = async context => {
   })
 
   const ads = await client.getEntries({content_type: "addPost"}).then((response) => response.items);
-  const gallery = await client.getEntries({ content_type: "gallery" }).then((response) => response.items);
+  const gallery = await client.getEntries({ content_type: "gallery"}).then((response) => response.items);
 
   if (context.res) {
     context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')

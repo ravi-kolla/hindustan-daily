@@ -52,7 +52,7 @@ EtPage.getInitialProps = async context => {
   })
 
   const ads = await client.getEntries({content_type: "addPost"}).then((response) => response.items);
-  const etNews = await client.getEntries({ content_type: "entertainment" }).then((response) => response.items);
+  const etNews = await client.getEntries({ content_type: "entertainment", 'fields.language[match]': "english" }).then((response) => response.items);
 
   if (context.res) {
     context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')

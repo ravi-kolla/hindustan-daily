@@ -52,7 +52,7 @@ HealthPage.getInitialProps = async context => {
   })
 
   const ads = await client.getEntries({content_type: "addPost"}).then((response) => response.items);
-  const health = await client.getEntries({ content_type: "health"}).then((response) => response.items);
+  const health = await client.getEntries({ content_type: "health", 'fields.language[match]': "english"}).then((response) => response.items);
 
   if (context.res) {
     context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')

@@ -86,7 +86,7 @@ export async function getStaticProps(context) {
   // Fetch all results where `fields.slug` is equal to the `slug` param
   const ads = await client.getEntries({content_type: "addPost"}).then((response) => response.items);
   const result = await client.getEntries({content_type: "post", "fields.slug": context.params.slug}).then((response) => response.items)
-  const suggestions = await client.getEntries({ content_type: "post", 'fields.slug[ne]': context.params.slug, 'fields.category[ne]': "movie-reviews", 'order': "-fields.date", 'limit': "4" }).then((response) => response.items);
+  const suggestions = await client.getEntries({ content_type: "post", 'fields.slug[ne]': context.params.slug, 'fields.category[ne]': "movie-reviews", 'fields.language[match]': "english", 'order': "-fields.date", 'limit': "4" }).then((response) => response.items);
 
   // Since `slug` was set to be a unique field, we can be confident that
   // the only result in the query is the correct post.

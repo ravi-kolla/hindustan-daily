@@ -24,15 +24,15 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
-    "/news": [
+    "/telugu": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/news.js"
+      "static/chunks/pages/telugu.js"
     ],
-    "/news/[slug]": [
+    "/telugu/gallery/[slug]": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/news/[slug].js"
+      "static/chunks/pages/telugu/gallery/[slug].js"
     ]
   },
   "ampFirstPages": []

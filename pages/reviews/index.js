@@ -52,7 +52,7 @@ Reviewspage.getInitialProps = async context => {
   })
 
   const ads = await client.getEntries({content_type: "addPost"}).then((response) => response.items);
-  const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews" }).then((response) => response.items);
+  const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews", 'fields.language[ne]': "telugu" }).then((response) => response.items);
 
   if (context.res) {
     context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
