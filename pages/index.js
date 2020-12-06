@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Layout from '../components/Layout'
-import AdPost from '../components/adPost'
 import MainBanner from '../components/mainBanner'
 import Headlines from '../components/headlines'
 import GalleryList from '../components/galleryList'
@@ -21,91 +20,57 @@ const HomePage = props => (
       </div>
       <div className="row">
       <div className="col-md-6 col-lg-4 mt-3">
-      <div>
-      {props.ads.length > 0
-        ? <AdPost image = {props.ads[0].fields.adPost.fields} link = {props.ads[0].fields.link} /> : null
-      }
-      </div>
-      <div className="mt-3">
-      <h5 className="bg-light font-weight-bold">Top Stories</h5>
-      {props.topStories.length > 0
-        ? props.topStories.map(p => (
-            <Headlines category="news" date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
-          )) : null}
-        </div>
+        <h5 className="bg-light font-weight-bold">Top Stories</h5>
+        {props.topStories.length > 0
+          ? props.topStories.map(p => (
+              <Headlines category="news" date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
+            )) : null}
         </div>
         <div className="col-md-6 col-lg-4 mt-3">
-          <div>
-          {props.ads.length > 1
-            ? <AdPost image = {props.ads[1].fields.adPost.fields} link = {props.ads[1].fields.link} /> : null
-          }
-          </div>
-          <div className="mt-3">
           <h5 className="bg-light font-weight-bold">Big News</h5>
           {props.bigNews.length > 0
             ? props.bigNews.map(p => (
               <Headlines category="news" date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
               )) : null}
-            </div>
-          </div>
+        </div>
             <div className="col-md-6 col-lg-4 mt-3">
-              <div>
-              {props.ads.length > 2
-                ? <AdPost image = {props.ads[2].fields.adPost.fields} link = {props.ads[2].fields.link} /> : null
-              }
-              </div>
-              <div className="mt-3">
               <h5 className="bg-light font-weight-bold">Health</h5>
               {props.health.length > 0
                 ? props.health.map(p => (
                   <Headlines category="health" date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
                   ))
                 : <p>Coming Soon</p>}
-                </div>
               </div>
               <div className="col-md-6 col-lg-4 mt-3">
-                <div className="mt-3">
                 <h5 className="bg-light font-weight-bold">Reviews</h5>
                 {props.reviews.length > 0
                   ? props.reviews.map(p => (
                     <Headlines category="reviews" date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
                     ))
                   : null}
-                  </div>
                 </div>
                   <div className="col-md-6 col-lg-4 mt-3">
-                    <div className="mt-3">
                     <h5 className="bg-light font-weight-bold">Entertainment</h5>
                     {props.etNews.length > 0
                       ? props.etNews.map(p => (
                           <Headlines category="entertainment" date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug}
                           />
                         )) : null}
-                      </div>
                     </div>
                       <div className="col-md-6 col-lg-4 mt-3">
-                        <div className="mt-3">
                         <h5 className="bg-light font-weight-bold">Auto News</h5>
                         {props.autoNews.length > 0
                           ? props.autoNews.map(p => (
                             <Headlines category="news" date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
                             )) : null}
-                        </div>
                       </div>
                       <div className="col-md-6 col-lg-4 mt-3">
-                      <div>
-                      {props.ads.length > 2
-                        ? <AdPost image = {props.ads[2].fields.adPost.fields} link = {props.ads[2].fields.link} /> : null
-                      }
-                      </div>
-                        <div className="mt-3">
                         <h5 className="bg-light font-weight-bold">Gallery</h5>
                         {props.gallery.length > 0
                           ? props.gallery.map(p => (
                               <GalleryList category="gallery" date={p.fields.date} key={p.fields.title} image={p.fields.images[0].fields} title={p.fields.title} slug={p.fields.slug}
                               />
                             )) : null}
-                          </div>
                         </div>
             </div>
         </div>
@@ -122,7 +87,6 @@ HomePage.getInitialProps = async context => {
   })
 
   const mainBanner = await client.getEntries({content_type: "mainBanner"}).then((response) => response.items);
-  const ads = await client.getEntries({content_type: "addPost"}).then((response) => response.items);
   const topStories = await client.getEntries({ content_type: "post", 'fields.category[match]': "top-stories", 'fields.language[ne]': "telugu", 'order': "-fields.date", 'limit': "4" }).then((response) => response.items);
   const bigNews = await client.getEntries({ content_type: "post", 'fields.category[match]': "big-news", 'fields.language[ne]': "telugu", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
   const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews", 'fields.language[ne]': "telugu", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
@@ -135,7 +99,7 @@ HomePage.getInitialProps = async context => {
     context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   }
 
-  return { mainBanner, ads, topStories, bigNews, reviews, gallery, etNews, health, autoNews }
+  return { mainBanner, topStories, bigNews, reviews, gallery, etNews, health, autoNews }
 }
 
 export default HomePage

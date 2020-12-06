@@ -3,7 +3,6 @@ import Head from 'next/head'
 import Moment from 'moment'
 import Article from '../../components/article'
 import Layout from '../../components/Layout'
-import AdPost from '../../components/adPost'
 import SuggestedArticles from '../../components/suggestedArticles'
 
 const ReviewPost = props =>{
@@ -44,15 +43,7 @@ const ReviewPost = props =>{
           category="reviews"
         />
       </div>
-      <div className="col-lg-3">
-      <div className="mb-5">
-      {props.ads.length > 0
-        ? <AdPost
-            image = {props.ads[1].fields.adPost.fields}
-            link = {props.ads[1].fields.link}
-          /> : null
-      }
-      </div>
+      <div className="col-lg-3 mt-5">
         <h5 className="bg-light">Suggested for you</h5>
         <div className="row">
         {props.suggestions.length > 0

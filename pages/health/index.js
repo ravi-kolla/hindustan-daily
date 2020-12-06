@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Layout from '../../components/Layout'
-import AdPost from '../../components/adPost'
 import Headlines from '../../components/headlines'
 
 const HealthPage = props => (
@@ -26,18 +25,6 @@ const HealthPage = props => (
         : null}
         </div>
         </div>
-        <div className="col-md-4 mt-5">
-        <div>
-        {props.ads.length > 0
-          ?props.ads.map(p => (
-            <AdPost
-                image = {p.fields.adPost.fields}
-                link = {p.fields.link}
-              />
-          ))  : null
-        }
-        </div>
-        </div>
         </div>
         </div>
         </Layout>
@@ -51,14 +38,13 @@ HealthPage.getInitialProps = async context => {
     accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN
   })
 
-  const ads = await client.getEntries({content_type: "addPost"}).then((response) => response.items);
   const health = await client.getEntries({ content_type: "health", 'fields.language[match]': "english"}).then((response) => response.items);
 
   if (context.res) {
     context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   }
 
-  return { ads, health }
+  return { health }
 }
 
 export default HealthPage

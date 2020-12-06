@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Layout from '../../components/Layout'
-import AdPost from '../../components/adPost'
 import GalleryList from '../../components/galleryList'
 
 const Gallerypage = props => (
@@ -10,15 +9,6 @@ const Gallerypage = props => (
       <div className="container">
       <div className="row">
       <div className="col-md-6 col-lg-8 mt-3">
-      <div>
-      {props.ads.length > 0
-        ? <AdPost
-            image = {props.ads[2].fields.adPost.fields}
-            link = {props.ads[2].fields.link}
-          /> : null
-      }
-      </div>
-      <div className="mt-3">
       {props.gallery.length > 0
         ? <h5 className="bg-light">Gallery</h5> : null }
       {props.gallery.length > 0
@@ -33,7 +23,6 @@ const Gallerypage = props => (
             />
           ))
         : null}
-        </div>
         </div>
         </div>
         </div>

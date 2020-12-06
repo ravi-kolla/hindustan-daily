@@ -3,7 +3,6 @@ import Head from 'next/head'
 import Moment from 'moment'
 import Article from '../../../components/article'
 import Layout from '../../../components/Layout'
-import AdPost from '../../../components/adPost'
 import SuggestedArticles from '../../../components/suggestedArticles'
 
 const HealthPost = props =>{
@@ -44,16 +43,8 @@ const HealthPost = props =>{
           category="health"
         />
       </div>
-      <div className="col-lg-3">
-      <div className="mb-5">
-      {props.ads.length > 0
-        ? <AdPost
-            image = {props.ads[1].fields.adPost.fields}
-            link = {props.ads[1].fields.link}
-          /> : null
-      }
-      </div>
-        <h5 className="bg-light">Suggested for you</h5>
+      <div className="col-lg-3 mt-5">
+        <h5 className="bg-light">మరిన్ని అంశాలు</h5>
         <div className="row">
         {props.suggestions.length > 0
           ? props.suggestions.map(p => (
@@ -82,7 +73,6 @@ export async function getStaticProps(context) {
   })
 
   // Fetch all results where `fields.slug` is equal to the `slug` param
-  const ads = await client.getEntries({content_type: "addPost"}).then((response) => response.items);
   const result = await client.getEntries({content_type: "health", "fields.slug": context.params.slug}).then((response) => response.items)
   const suggestions = await client.getEntries({content_type: "health", 'fields.slug[ne]': context.params.slug, 'fields.language[match]': "telugu", 'order': "-fields.date", 'limit': "4" }).then((response) => response.items);
 
@@ -99,7 +89,6 @@ export async function getStaticProps(context) {
   // Return the post as props
   return {
     props: {
-      ads,
       post,
       suggestions
     },

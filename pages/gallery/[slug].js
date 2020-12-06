@@ -3,7 +3,6 @@ import Head from 'next/head'
 import Moment from 'moment'
 import ImageGallery from '../../components/imageGallery'
 import Layout from '../../components/Layout'
-import AdPost from '../../components/adPost'
 
 const client = require('contentful').createClient({
   space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
@@ -11,23 +10,6 @@ const client = require('contentful').createClient({
 })
 
 const GalleyPost = props =>{
-
-  async function fetchAds() {
-    const entries = await client.getEntries({ content_type: "addPost" })
-    if (entries.items) return entries.items
-    console.log(`Error getting Entries for ${contentType.name}.`)
-  }
-
-  const [ads, setAds] = useState([])
-
-  useEffect(() => {
-    async function getPosts() {
-      const allAds = await fetchAds()
-      setAds([...allAds])
-      console.log(allAds);
-    }
-    getPosts()
-  }, [])
 
   const date = props.post.fields.date;
   const formattedDate = Moment(date).format('MMMM Do YYYY, H:mm');
@@ -64,16 +46,6 @@ const GalleyPost = props =>{
         description={props.post.fields.description}
         category="gallery"
       />
-      </div>
-      <div className="col-md-4">
-      <div>
-      {ads.length > 0
-        ? <AdPost
-            image = {ads[0].fields.adPost.fields}
-            link = {ads[0].fields.link}
-          /> : null
-      }
-      </div>
       </div>
       </div>
     </div>
