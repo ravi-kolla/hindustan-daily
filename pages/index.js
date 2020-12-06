@@ -9,15 +9,16 @@ const HomePage = props => (
     <>
       <Layout>
       <div className="container">
-      <div className="row">
-      <div className="mt-1 col-md-12">
-      <div>
-      {props.mainBanner.length > 0
-        ? <MainBanner image = {props.mainBanner[0].fields.banner.fields} link = {props.mainBanner[0].fields.link} /> : null
-      }
-      </div>
-      </div>
-      </div>
+      {props.mainBanner.length > 0 ?
+      <>
+        <div className="row">
+          <div className="mt-1 col-md-12">
+            <div>
+              <MainBanner image = {props.mainBanner[0].fields.banner.fields} link = {props.mainBanner[0].fields.link} />
+            </div>
+          </div>
+        </div>
+      </> : null }
       <div className="row">
       <div className="col-md-6 col-lg-4 mt-3">
         <h5 className="bg-light font-weight-bold">Top Stories</h5>
