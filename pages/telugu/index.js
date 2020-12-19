@@ -67,10 +67,10 @@ TeluguPage.getInitialProps = async context => {
     accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN
   })
 
-  const teluguNews = await client.getEntries({ content_type: "post", 'fields.category[ne]': "movie-reviews", 'fields.language[match]': "telugu", 'order': "-fields.date", 'limit': "5" }).then((response) => response.items);
-  const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews", 'fields.language[match]': "telugu", 'order': "-fields.date", 'limit': "5"  }).then((response) => response.items);
+  const teluguNews = await client.getEntries({ content_type: "post", 'fields.category[ne]': "movie-reviews", 'fields.teluguDescription[exists]': true, 'order': "-fields.date", 'limit': "5" }).then((response) => response.items);
+  const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews", 'fields.teluguDescription[exists]': true, 'order': "-fields.date", 'limit': "5"  }).then((response) => response.items);
   const health = await client.getEntries({ content_type: "health", 'fields.teluguDescription[exists]': true, 'order': "-fields.date", 'limit': "5"  }).then((response) => response.items);
-  const etNews = await client.getEntries({ content_type: "entertainment", 'fields.language[match]': "telugu", 'order': "-fields.date", 'limit': "5"  }).then((response) => response.items);
+  const etNews = await client.getEntries({ content_type: "entertainment",  'fields.teluguDescription[exists]': true, 'order': "-fields.date", 'limit': "5"  }).then((response) => response.items);
   const gallery = await client.getEntries({ content_type: "gallery", 'order': "-fields.date", 'limit': "5"  }).then((response) => response.items);
 
   if (context.res) {

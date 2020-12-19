@@ -14,6 +14,11 @@
     "static/development/_ssgManifest.js"
   ],
   "pages": {
+    "/": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/index.js"
+    ],
     "/_app": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
@@ -24,15 +29,10 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
-    "/health/[slug]": [
+    "/telugu": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/health/[slug].js"
-    ],
-    "/telugu/health/[slug]": [
-      "static/chunks/main.js",
-      "static/chunks/webpack.js",
-      "static/chunks/pages/telugu/health/[slug].js"
+      "static/chunks/pages/telugu.js"
     ]
   },
   "ampFirstPages": []

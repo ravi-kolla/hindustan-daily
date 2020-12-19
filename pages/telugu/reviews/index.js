@@ -17,7 +17,7 @@ const Reviewspage = props => (
               date={p.fields.date}
               key={p.fields.title}
               image={p.fields.image.fields}
-              title={p.fields.title}
+              title={p.fields.teluguTitle}
               slug={p.fields.slug}
               category="reviews"
             />
@@ -38,7 +38,7 @@ Reviewspage.getInitialProps = async context => {
     accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN
   })
 
-  const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews", 'fields.language[match]': "telugu" }).then((response) => response.items);
+  const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews", 'fields.teluguDescription[exists]': true }).then((response) => response.items);
 
   if (context.res) {
     context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
