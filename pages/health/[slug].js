@@ -20,7 +20,7 @@ const HealthPost = props =>{
       <meta property="og:url"           content={`https://hindustandaily.com/health/${props.post.fields.slug}`} />
       <meta property="og:type"          content="website" />
       <meta property="og:title"         content={props.post.fields.title} />
-      <meta property="og:description"   content={props.post.fields.body} />
+      <meta property="og:description"   content={props.post.fields.englishDescription} />
       <meta property="og:image"         content={props.post.fields.image.fields.file.url} />
       <meta property="og:site_name" content="Hindustan Daily, Online news portal" />
       <meta property="fb:app_id" content="itshdmedia" />
@@ -39,7 +39,7 @@ const HealthPost = props =>{
           image={props.post.fields.image.fields}
           title={props.post.fields.title}
           url={props.post.fields.slug}
-          body={props.post.fields.body}
+          body={props.post.fields.englishDescription}
           category="health"
         />
       </div>
@@ -74,7 +74,7 @@ export async function getStaticProps(context) {
 
   // Fetch all results where `fields.slug` is equal to the `slug` param
   const result = await client.getEntries({content_type: "health", "fields.slug": context.params.slug}).then((response) => response.items)
-  const suggestions = await client.getEntries({content_type: "health", 'fields.slug[ne]': context.params.slug, 'fields.language[match]': "english", 'order': "-fields.date", 'limit': "4" }).then((response) => response.items);
+  const suggestions = await client.getEntries({content_type: "health", 'fields.slug[ne]': context.params.slug, 'fields.englishDescription[exists]': true, 'order': "-fields.date", 'limit': "4" }).then((response) => response.items);
 
   // Since `slug` was set to be a unique field, we can be confident that
   // the only result in the query is the correct post.

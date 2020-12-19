@@ -28,7 +28,7 @@ const HealthPost = props =>{
       <meta name="twitter:site" content="@itsHDGroup" />
       <meta name="twitter:creator" content="@itsHDGroup" />
       <meta name="twitter:title" content={props.post.fields.title} />
-      <meta name="twitter:description" content={props.post.fields.body} />
+      <meta name="twitter:description" content={props.post.fields.teluguDescription} />
       <meta name="twitter:image" content={`https:${props.post.fields.image.fields.file.url}`} />
     </Head>
     <div className="container">
@@ -37,9 +37,9 @@ const HealthPost = props =>{
         <Article
           date={formattedDate}
           image={props.post.fields.image.fields}
-          title={props.post.fields.title}
+          title={props.post.fields.teluguTitle}
           url={props.post.fields.slug}
-          body={props.post.fields.body}
+          body={props.post.fields.teluguDescription}
           category="health"
         />
       </div>
@@ -50,9 +50,9 @@ const HealthPost = props =>{
           ? props.suggestions.map(p => (
               <SuggestedArticles
                 date={p.fields.date}
-                key={p.fields.title}
+                key={p.fields.teluguTitle}
                 image={p.fields.image.fields}
-                title={p.fields.title}
+                title={p.fields.teluguTitle}
                 slug={p.fields.slug}
               />
             ))
@@ -74,7 +74,7 @@ export async function getStaticProps(context) {
 
   // Fetch all results where `fields.slug` is equal to the `slug` param
   const result = await client.getEntries({content_type: "health", "fields.slug": context.params.slug}).then((response) => response.items)
-  const suggestions = await client.getEntries({content_type: "health", 'fields.slug[ne]': context.params.slug, 'fields.language[match]': "telugu", 'order': "-fields.date", 'limit': "4" }).then((response) => response.items);
+  const suggestions = await client.getEntries({content_type: "health", 'fields.slug[ne]': context.params.slug, 'fields.teluguDescription[exists]': true, 'order': "-fields.date", 'limit': "4" }).then((response) => response.items);
 
   // Since `slug` was set to be a unique field, we can be confident that
   // the only result in the query is the correct post.

@@ -38,7 +38,7 @@ HealthPage.getInitialProps = async context => {
     accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN
   })
 
-  const health = await client.getEntries({ content_type: "health", 'fields.language[match]': "english"}).then((response) => response.items);
+  const health = await client.getEntries({ content_type: "health", 'fields.englishDescription[exists]': true}).then((response) => response.items);
 
   if (context.res) {
     context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')

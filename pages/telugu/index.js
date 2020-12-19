@@ -23,7 +23,7 @@ const TeluguPage = props => (
         <h5 className="bg-light font-weight-bold">ఆరోగ్యం</h5>
         {props.health.length > 0
           ? props.health.map(p => (
-            <Headlines category="telugu/health" date={p.fields.date} key={p.fields.title} image={p.fields.image.fields} title={p.fields.title} slug={p.fields.slug} />
+            <Headlines category="telugu/health" date={p.fields.date} key={p.fields.teluguTitle} image={p.fields.image.fields} title={p.fields.teluguTitle} slug={p.fields.slug} />
             ))
           : null}
       </div>  : null }
@@ -69,7 +69,7 @@ TeluguPage.getInitialProps = async context => {
 
   const teluguNews = await client.getEntries({ content_type: "post", 'fields.category[ne]': "movie-reviews", 'fields.language[match]': "telugu", 'order': "-fields.date", 'limit': "5" }).then((response) => response.items);
   const reviews = await client.getEntries({ content_type: "post", 'fields.category[match]': "movie-reviews", 'fields.language[match]': "telugu", 'order': "-fields.date", 'limit': "5"  }).then((response) => response.items);
-  const health = await client.getEntries({ content_type: "health", 'fields.language[match]': "telugu", 'order': "-fields.date", 'limit': "5"  }).then((response) => response.items);
+  const health = await client.getEntries({ content_type: "health", 'fields.teluguDescription[exists]': true, 'order': "-fields.date", 'limit': "5"  }).then((response) => response.items);
   const etNews = await client.getEntries({ content_type: "entertainment", 'fields.language[match]': "telugu", 'order': "-fields.date", 'limit': "5"  }).then((response) => response.items);
   const gallery = await client.getEntries({ content_type: "gallery", 'order': "-fields.date", 'limit': "5"  }).then((response) => response.items);
 

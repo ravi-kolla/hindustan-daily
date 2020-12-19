@@ -94,7 +94,7 @@ HomePage.getInitialProps = async context => {
   const autoNews = await client.getEntries({ content_type: "post", 'fields.category[match]': "auto-news", 'fields.language[ne]': "telugu", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
   const gallery = await client.getEntries({ content_type: "gallery", 'order': "-fields.date", 'limit': "4"  }).then((response) => response.items);
   const etNews = await client.getEntries({ content_type: "entertainment", 'order': "-fields.date", 'fields.language[ne]': "telugu", 'limit': "4"  }).then((response) => response.items);
-  const health = await client.getEntries({ content_type: "health", 'order': "-fields.date", 'fields.language[ne]': "telugu", 'limit': "4"  }).then((response) => response.items);
+  const health = await client.getEntries({ content_type: "health", 'order': "-fields.date", 'fields.teluguDescription[exists]': true, 'limit': "4"  }).then((response) => response.items);
 
   if (context.res) {
     context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')

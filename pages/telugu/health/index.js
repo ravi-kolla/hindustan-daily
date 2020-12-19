@@ -15,9 +15,9 @@ const HealthPage = props => (
         ? props.health.map(p => (
             <Headlines
               date={p.fields.date}
-              key={p.fields.title}
+              key={p.fields.teluguTitle}
               image={p.fields.image.fields}
-              title={p.fields.title}
+              title={p.fields.teluguTitle}
               slug={p.fields.slug}
               category="health"
             />
@@ -38,7 +38,7 @@ HealthPage.getInitialProps = async context => {
     accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN
   })
 
-  const health = await client.getEntries({ content_type: "health", 'fields.language[match]': "telugu"}).then((response) => response.items);
+  const health = await client.getEntries({ content_type: "health", 'fields.teluguDescription[exists]': true}).then((response) => response.items);
 
   if (context.res) {
     context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
